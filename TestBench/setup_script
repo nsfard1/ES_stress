@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ $1 != "clean" ]; then
+mkdir machines
+cd machines
+for i in `seq $1 $2`;
+do
+        mkdir $i
+        cd $i
+        cp -r ~/569/elasticsearch-6.2.1 .
+        echo "node.name: 127x$i" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        echo "path.logs: ~/569/machines/$i/logs" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        echo "path.data: ~/569/machines/$i/data" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        if [ $i -lt 10 ]; then
+                ssh 127x0$i.csc.calpoly.edu "~/569/machines/$i/elasticsearch-6.2.1/bin/elasticsearch" &
+        else
+                ssh 127x$i.csc.calpoly.edu "~/569/machines/$i/elasticsearch-6.2.1/bin/elasticsearch" &
+        fi
+        cd ..
+done
+else
+rm -r machines
+fi
