@@ -1,0 +1,909 @@
+
+%% bare_jrnl.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% see http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE journal paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[journal]{IEEEtran}
+\usepackage{blindtext}
+\usepackage{graphicx}
+
+\usepackage{url}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\newcommand*\vtick{\textsc{\char13}}
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
+% not currently provide for hyperlinked citations.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage[cmex10]{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[tight,footnotesize]{subfigure}
+% subfigure.sty was written by Steven Douglas Cochran. This package makes it
+% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
+% work, it is a good idea to load it with the tight package option to reduce
+% the amount of white space around the subfigures. subfigure.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at:
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+% subfigure.sty has been superceeded by subfig.sty.
+
+
+
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+% subfig.sty, also written by Steven Douglas Cochran, is the modern
+% replacement for subfigure.sty. However, subfig.sty requires and
+% automatically loads Axel Sommerfeldt's caption.sty which will override
+% IEEEtran.cls handling of captions and this will result in nonIEEE style
+% figure/table captions. To prevent this problem, be sure and preload
+% caption.sty with its "caption=false" package option. This is will preserve
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
+% (recommended due to many improvements over 1.2) of subfig.sty supports
+% the caption=false option directly:
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+% The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+% The latest version and documentation of caption.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Documentation is contained in the stfloats.sty comments as well as in the
+% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
+% does not allow \baselineskip to stretch. Authors submitting work to the
+% IEEE should note that IEEE rarely uses double column equations and
+% that authors should try to avoid such use. Do not be tempted to use the
+% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
+% not format its papers in such ways.
+
+
+%\ifCLASSOPTIONcaptionsoff
+%  \usepackage[nomarkers]{endfloat}
+% \let\MYoriglatexcaption\caption
+% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+%\fi
+% endfloat.sty was written by James Darrell McCauley and Jeff Goldberg.
+% This package may be useful when used in conjunction with IEEEtran.cls'
+% captionsoff option. Some IEEE journals/societies require that submissions
+% have lists of figures/tables at the end of the paper and that
+% figures/tables without any captions are placed on a page by themselves at
+% the end of the document. If needed, the draftcls IEEEtran class option or
+% \CLASSINPUTbaselinestretch interface can be used to increase the line
+% spacing as well. Be sure and use the nomarkers option of endfloat to
+% prevent endfloat from "marking" where the figures would have been placed
+% in the text. The two hack lines of code above are a slight modification of
+% that suggested by in the endfloat docs (section 8.3.1) to ensure that
+% the full captions always appear in the list of figures/tables - even if
+% the user used the short optional argument of \caption[]{}.
+% IEEE papers do not typically make use of \caption[]'s optional argument,
+% so this should not be an issue. A similar trick can be used to disable
+% captions of packages such as subfig.sty that lack options to turn off
+% the subcaptions:
+% For subfig.sty:
+% \let\MYorigsubfloat\subfloat
+% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+% For subfigure.sty:
+% \let\MYorigsubfigure\subfigure
+% \renewcommand{\subfigure}[2][\relax]{\MYorigsubfigure[]{#2}}
+% However, the above trick will not work if both optional arguments of
+% the \subfloat/subfig command are used. Furthermore, there needs to be a
+% description of each subfigure *somewhere* and endfloat does not add
+% subfigure captions to its list of figures. Thus, the best approach is to
+% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
+% and instead reference/explain all the subfigures within the main caption.
+% The latest version of endfloat.sty and its documentation can obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/endfloat/
+%
+% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
+% later in the document, say, to conditionally put the References on a 
+% page by themselves.
+
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{A Comprehensive Stress Test of Elasticsearch's Distributed System}
+
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
+
+\author{Arshan~Hashemi,~John~Jackson,~David~Maulick,~Nathan~Sfard}
+
+% note the % following the last \IEEEmembership and also \thanks - 
+% these prevent an unwanted space from occurring between the last author name
+% and the end of the author line. i.e., if you had this:
+% 
+% \author{....lastname \thanks{...} \thanks{...} }
+%                     ^------------^------------^----Do not want these spaces!
+%
+% a space would be appended to the last name and could cause every name on that
+% line to be shifted left slightly. This is one of those "LaTeX things". For
+% instance, "\textbf{A} \textbf{B}" will typeset as "A B" not "AB". To get
+% "AB" then you have to do: "\textbf{A}\textbf{B}"
+% \thanks is no different in this regard, so shield the last } of each \thanks
+% that ends a line with a % and do not let a space in before the next \thanks.
+% Spaces after \IEEEmembership other than the last one are OK (and needed) as
+% you are supposed to have spaces between the names. For what it is worth,
+% this is a minor point as most people would not even notice if the said evil
+% space somehow managed to creep in.
+
+
+
+% The paper headers
+\markboth{CSC 569,~Cal Poly,~Winter~2018, Professor Pantoja, March~2018}%
+%{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for Journals}
+% The only time the second header will appear is for the odd numbered pages
+% after the title page when using the twoside option.
+% 
+% *** Note that you probably will NOT want to include the author's ***
+% *** name in the headers of peer review papers.                   ***
+% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
+% you desire.
+
+
+
+
+% If you want to put a publisher's ID mark on the page you can do it like
+% this:
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2007 IEEE}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark.
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+%\boldmath
+
+Elasticsearch is best known through the ELK (Elasticsearch, Logstash, Kibana) stack, which combines three open source projects Elasticsearch, Logstash, and Kibana.  Elasticsearch is the distributed backend datastore, Kibana is the frontend dashboard, and Logstash is the workhorse for querying and analyzing time series data. Together they create a very usable distributed database and search engine that has proven to be extremely useful in log analytics, security analytics, website search and much more. 
+
+The Elasticsearch project itself can be thought of as a distributed datastore that allows for extremely efficient querying of distributed data. Its effective querying is a result of its distributed, multitenant- capable full text search engine with a RESTful HTTP API. The project's search engine is based on Apache's Lucene, which has been retrofitted to be a distributed system search engine.
+
+Although Elasticsearch has become very popular recently,  there are still many questions surrounding its performance. Chiefly, Elasticsearch's performance has shown to vary over different configurations and forms of queries.  In our project, we would like to perform stress tests on the Elasticsearch engine by exposing the API to heavy, concurrent traffic, as well as varying configurations. We tested variable sized clusters using Postman and GPUs to simulate user requests, both sequentially and in parallel, at differing rates and data sizes in hopes of finding vulnerabilities in the Elasticsearch engine. We expect Elasticsearch to hold up to its reputation and maintain solid efficiency over most variations of queries and configurations. However, we hope that we will discovera bottleneck in this very popular distributed search engine.
+
+
+\end{abstract}
+% IEEEtran.cls defaults to using nonbold math in the Abstract.
+% This preserves the distinction between vectors and scalars. However,
+% if the journal you are submitting to favors bold math in the abstract,
+% then you can use LaTeX's standard command \boldmath at the very start
+% of the abstract to achieve this. Many IEEE journals frown on math
+% in the abstract anyway.
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+Elasticsearch, Distributed Computing.
+\end{IEEEkeywords}
+
+
+
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+%intro
+%motivation
+%Algorithm
+    %Design
+    %experiment
+    %results
+%Conclusion
+%future work
+%references
+
+\section{Introduction}
+
+The movement from centralized databases to distributed databases in industry has just about completed, and for good reason. Compared to centralized databases, distributed databases are more reliable, they have better response times, lower communication costs, and they allow for more modular development. As a result, numerous organizations have created distributed databases with varying specialties.
+
+In relative terms, a new form of database that has emerged to be very popular is the full-text search engine. This form of database emerged when corporations and governments found themselves with mass amounts of unstructured textual data that would not fit into the old table style databases\cite{bennet_2018}. These databases are NoSQL management systems that are dedicated to the search for textual content in unstructured data. Such databases support complex search expressions and full text search which allows for a very flexible implementation in almost any environment.
+
+Unfortunately, research into the effectiveness of current distributed search engine databases seems to be lacking compared to the older forms of databases. Even more so, a deep evaluation of the world's most popular search engine distributed database, Elasticsearch, is lacking. Upon research, one may find basic evaluations of how different deployment configurations will affect its performance\cite{berger_2018}, or how varying queries will change throughput. But it is difficult to find research that really tries to push Elasticsearch’s capabilities. In this paper we plan to perform a stress test on Elasticsearch. In this effort we will build off methods from prior distributed system stress tests. By doing so we hope to identify some sort of a bottleneck in Elasticsearch's distributed nature.
+
+Related works from \cite{berger_2018,thacker_pandey_rautaray_2016} specifically test Elasticsearch provide a great starting point. In \cite{berger_2018}, the authors compared different scaling configurations in a performance test environment. The article compares different speeds for different setups for elasticsearch, as well as total CPU usage for each setup. This article is a good source of information that may help identify potential bottlenecks. In \cite{thacker_pandey_rautaray_2016} it is observed that the performance of Elasticsearch depends on the type of query, the size of the result set, and the page size.
+
+As stated, the above works will serve a great starting point. However, in order to test Elasticsearch to its limit, we expect that more creative approaches will be necessary. Through research of prior stress tests on other distributed systems we expect to be able to achieve a much higher level of creativity in our testing.
+
+For example, the authors of \cite{garousi_briand_labiche_2006} came up with an approach to analyzing network traffic in a distributed system as well as a strategy for stress testing the same system. The strategy is to overload the network by timing all concurrent workloads to so each workload executes its heaviest task at the same time. In another creative approach \cite{hwang_wu-lee_tung_chuang_wu_2014},a Hadoop cluster was set up using the MapReduce model to observe the point at which the system will crash due to heavy load. The Hadoop cluster was used to simulate a variable number of user connections that send heavy-weight transactions at the exact same time. 
+
+By learning from each these past tests we hope to identify a new bottleneck in Elasticsearch's scalability. Our paper is organized as follows: Section II will cover more background on Elasticsearch, Section III will go over the design of our stress test, in Section IV we state the results of the stress test, Section V is our concluding remarks, and Section VI covers future work.
+
+\section{Implementation}
+
+There are two components involved in testing the performance of Elasticsearch: a workload and a test bench. The workload consists of one or more test scripts — each representing a single user transaction — whose sole responsibility is to upload documents to an Elasticsearch cluster and query the cluster with search terms. Each test script is just a queue of http requests for our Elasticsearch cluster. The test scripts also have tunable parameters in order to achieve optimal testing conditions. These parameters include:
+\begin{enumerate}
+    \item \textbf{Cluster size -} The total number of nodes in the cluster.
+    \item \textbf{Ratio of node types -} The number of nodes that are client nodes, master nodes, and data nodes.
+    \item \textbf{Number of users -} Number of test scripts to execute in the workload.
+    \item \textbf{Document size -} Size of each document being uploaded.
+    \item \textbf{Script execution style -} Whether all scripts should be executed with all uploads being executed followed by all queries, or switching back and forth between uploads and queries.
+    \item \textbf{Sequential vs. parallel -} Whether the scripts are run sequentially on a CPU or in parallel on a GPU.
+\end{enumerate}
+
+A test bench with these tunable parameters will provide valuable insight into how well Elasticsearch maintains under a variety of these basic configurations and by evaluating those configurations we expect to gain an intuitive understanding of how Elasticsearch handles stress at its core. If time permits, we want to test more parameters in an effort to test the system’s robustness in a more practical use case.  In practice, an implementation of Elasticsearch may need to replicate more data, authenticate users, or use SSL certificates, which adds more overhead (i.e. stress) to the system. Therefore in the test scripts we would like to add parameters that will allow us to test with these variations specified:
+
+\begin{enumerate}
+    \item \textbf{Replication -} The number of replicas per index.
+    \item \textbf{Authentication -} Whether or not to use HTTP authentication.
+    \item \textbf{SSL certificates -} Whether or not the use of SSL certificates is verified.
+\end{enumerate}
+
+The workload refers to the specific set of requests that will be serviced by the cluster during testing. The problem we face is designing requests that are complex enough to stress the system, but still stay within the bounds of a realistic use case. There are two types of requests that we will be concerned with: index requests and search requests. Index requests are additions, removals, or updates of documents in the cluster. Each document is stored logically in an index which may be split into several physical shards distributed across nodes. Shards are also replicated in order to provide durability and availability and use a consensus protocol to manage updates. This can be configured to require a single, a quorum, or all replicas to acknowledge before a change is committed to the index. A natural test strategy would be to be to flood the system with many index requests while requiring a high number of shards per index, replicas per shard, and full consensus. To further stress this configuration we could intersperse additions, deletions, and search requests for a document to so see how the system handles requests for values that may be in an inconsistent state. 
+
+The second type of request we are concerned with is the search request. Search requests work by querying all shards for occurrences of a term, aggregating results from all shards, and sending a fetch request for the documents that best match the search. The query phase is based on a scoring mechanism which allows for the master node to easily rank documents based on a search metric. One question that emerges from this configuration is how many scores to aggregate from each shard. This could be simple in some cases, such as calculating a list of top ten occurrences, but more complicated in others. By constructing a search which requires a large number of responses from each shard we can introduce greater traffic. After the query phase the master sends a fetch requests for the documents that have highests scores for its search metric. This request is much more expensive since a whole document is now being sent as opposed to a score. Again, the number of documents required to be returned to the master node could potentially also put a significant amount of stress on the system. Additionally, in certain scenarios the query-fetch search may be inaccurate as it does not take into account global term frequencies.  As a result may be necessary to calculate these distributed term frequencies before performing a query-fetch. In our cluster we will examine the size at which this adjustment becomes a necessity and what additional cost it introduces in terms of performance. 
+
+The test bench is the program that makes it possible to run such a workload and tune each parameter. In our system, the test bench acts as the coordinator node; Figure 1 shows the general flow of the test bench program. First, the test bench must set up the Elasticsearch cluster, using the specified cluster size and ratio of node types. Setting up the cluster is done using a python client for Elasticsearch. The client allows us to configure and manage an Elasticsearch cluster from one coordinator node using a straightforward programming language. The coordinator will then pick a custom workload based on the script execution style, the replication level, and whether or not the cluster needs to use authentication or SSL certificates.
+
+The next step depends on whether the test bench must run sequentially or in parallel. If the test bench must run sequentially, then the coordinator node will generate and run one instance of a python script per user as specified by the number of users parameter. If the test bench must run in parallel, the coordinator node runs a CUDA program that spawns a single GPU thread per user. Each python script or GPU thread will then go through the workload and asynchronously send each HTTP request to a client node on our Elasticsearch cluster.
+
+Once all the GPU threads or python scripts complete, the coordinator must check to see if there are any more parameter configurations to run (i.e. a new workload and/or cluster configuration to test). If there is another parameter configuration to test, then the coordinator will reconfigure the cluster, if necessary, and restart the process of picking and deploying a workload.
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=7in]{sys_arch.png}
+  \caption{Test Bench Flowchart}
+\end{figure}
+
+
+
+
+% Graphical processing units (GPUs) have been around for some time but their application has been limited to just graphics processing until recently. The use of GPUs for general purpose computing is now becoming a hot topic in the computer science industry because of the performance gains that general purpose GPUs (GPGPUs) are capable of accomplishing. The parallel nature of GPUs also allow them to cooperate with a network of GPUs to easily distribute processing needs. Furthermore, considerable work has been done by the NVIDIA corporation to develop the Compute Unified Device Architecture (CUDA) programming model, which allows a developer to program a GPU device without worrying about the device's underlying architecture, similar to how the program 'gcc' enables a developer to program in the universal language C without needing to worry about which underlying assembler architecture is being used. 
+
+% In this paper we explore the performance impact of using GPUs for algorithms that are parallel in nature, often referred to as divide and conquer algorithms. Divide and conquer algorithms can be parallelized because they can be divided into sub problems that, when small enough, can all fit into SIMD registers and execute in parallel. This paper is not the first time someone has tried to parallelize divide and conquer algorithms, though; some have written papers on optimizing algorithms such as mergesort and Discrete Wavelet Transform algorithms \cite{GenericHybrid, Vomel:2012:DCH} and others have written about general techniques that can be used for GPGPU computing \cite{DBLP:journals/corr/CasanovaIKSW17,Hong:2009:AMG:1555815.1555775}. We used these papers as references for techniques to transform other divide and conquer CPU implementations into GPU implementations.
+
+% Our main contributions include CUDA implementations of the famous divide and conquer algorithms: binary search and array reduce, Thrust implementations of the same algorithms, an analysis of the optimal CUDA program parameters, and a comparison of the performance of a CPU implementation of each algorithm to our GPU implementations on different GPU machines. The rest of this paper is organized as follows: first we discuss the current GPU programming models, then describe our experimental setup, then go into details on the binary search algorithm, then more details on the array reduce algorithm and then the skyline algorithm, then we discuss future work, and finally we end with our concluding thoughts.
+
+% \section{GPU Programming Models}
+
+% \subsection{NVIDIA CUDA}
+
+% The CUDA platform was designed by NVIDIA to support and simplify the development of general computing applications on GPUs. CUDA implements parallel extensions for popular programming languages, including C and C++.  In our investigation, we implement several divide and conquer algorithms using the CUDA platform, then proceed to tune them and compare performance by adjusting various parameters offered by the CUDA libraries.
+
+% \subsection{Thrust Library}
+% The Thrust parallel algorithms library \cite{thrust} offers a set of parallel primitives and related utilities to programmers who seek to develop high-performance applications for GPGPU architectures.  Applications developed using the Thrust library are readily portable across GPU and multi-core CPU architectures. Thrust also supports interoperability with lower-level implementation libraries such as CUDA, OpenMP and TBB.
+
+% In addition to CUDA-only implementations of each divide and conquer algorithm studied, we separately implemented GPU optimized versions of each algorithm using the Thrust library. We then compared performance of all three implementations: Thrust-based, CUDA and CPU-only.  It it worth noting that for every algorithm, the Thrust implementation was by far the most succinct and readable. 
+
+% \section{Experimental Setup}
+
+% \subsection{Cal Poly Parallel Labs}
+
+% The parallel computing lab at Cal Poly (located in 20-127) is our on-campus resource for GPU server machines. These machines are all equipped with the NVIDIA GeForce GTX 980.  
+
+% \subsection{Cloud-based GPU Instances}
+
+% As the use of GPUs for general purpose computing grows, cloud computing providers have begun to offer GPU-enabled virtual machine instances.  The flexibility inherent in cloud environments readily allows experimentation on high-performance computing platforms, using CPU and GPU architectures that are would be very expensive to purchase outright.
+
+% In addition to physical servers available in campus labs, we configured GPU instances on the Amazon Web Services (AWS) platform and compared performance of our implementation using both low-end and high-end GPU instances.  One each GPU-enabled instance, we compared performance of the CPU, GPU/CUDA, and GPU/Thrust implementations. 
+
+% We used two different AWS GPU instances in our evaluation, each configured with CUDA 9 and the latest build of the Thrust library:
+% \begin{enumerate}
+%     \item \textbf{GPU1} Tesla K80 Accelerator, 1 x NVIDIA GK210 GPU  (12GB)  (p2.xlarge instance)
+%     \item \textbf{GPU2} 4 x Tesla V100-SXM2-16GB (p3.8xlarge instance)
+% \end{enumerate}
+
+% \section{Binary Search}
+
+% \subsection{Design}
+
+% When designing GPU implementations of the binary search algorithm, two approaches can be taken. The first approach is to make a hand-optimized CUDA program and the second approach is to use the Thrust library to make all the optimizations itself. The two approaches were implemented and the details of each design are stated below.
+
+% \subsubsection{CUDA}
+
+% The main motivation behind the design of this CUDA implementation of binary search is taking advantage of the SIMD behavior of a GPU. If we assume that the GPU in question has an infinite amount of processors, then the simplest solution would be to pass a single different element of our problem array to each of the processors. In fact, this is also how our implementation behaves when the number of total threads is larger than the size of our input array. However, when the number of total threads is less than the size of the input array, certain parameters can suddenly be tweaked to optimize performance. For example, if each SIMD processor must perform a search on more than one element, would it make sense for that processor to perform an iterative search or a binary search? Binary search sounds like the better choice but the more complex algorithm may incur synchronization costs between processors that wouldn't occur if an iterative search were performed.
+
+% We identified the following parameters should be tuned to find their optimal values: binary vs. iterative search, input size, number of threads per block, and number of blocks. In order to find these optimal values, we implemented a driver that would test our GPU implementation of binary search with every permutation of the possible values for the four parameters listed above. The results can be found in the Parameter Tuning section below. The combination of parameters that lead to the fastest times for all input sizes was then used for the performance test, which is detailed in the Performance section below.
+
+
+% \subsubsection{Thrust}
+
+% Designing the Thrust algorithm was trivial compared to the raw CUDA implementation. The Thrust library abstracts much of the difficulties involved with programming in CUDA and was enjoyable to use. Binary search was a built-in function provided by Thrust that performed all the GPU optimizations instead of the programmer. Since this was a built-in function and there was no way to optimize, nothing further needed to be implemented besides a driver to measure the performance of this Thrust implementation.
+
+% \subsection{Experimental Results}
+
+% \begin{figure*}
+%   \centering
+%   \includegraphics[width=\textwidth,height=15cm]{BS_parameters.png}
+%   \caption{Binary Search Parameter Comparisons (Log-Log Scale)}
+% \end{figure*}
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=3.5in]{BS_per.png}
+%   \caption{CPU vs. GPU implementations (Log-Log Scale)}
+% \end{figure}
+
+% The experiments performed on the binary search algorithm were all executed on an on-campus GPU machine, including the CPU reference program, which was executed on the CPU of the on-campus GPU machine. Unfortunately, this machine ran out of memory whenever the input size being tested was greater than 100 million and CUDA implementations could not handle an input size greater than 10 million. Although this limits our results, certain trends can still be seen and estimated for greater input sizes. Another factor in our experiments was the time it took to copy all the input data to the GPU device. Since this is an extra step compared to a CPU implementation, it must be considered, so we included performance times of our GPU implementations with and without the time it took to copy the input data.
+
+% The first experiment tested the parameters of our CUDA implementation of binary search to find the most optimal parameters and the results can be seen in Figure 1. The results show that when the input size is greater than the total number of threads, using binary search instead of iterative search performs much better. The results also show that 64 threads per block and 128 blocks are the optimal values across all input sizes.
+
+% The second experiment tested the performance of our optimized CUDA implementation with the performance of the Thrust implementation and the plain old CPU implementation. Figure 2 contains the results of this experiment and the results are suprising. Firstly, the CPU implementation definitively outperformed any other GPU implementation. Secondly, our optimized CUDA implementation outperformed the optimized Thrust implementation when considering copy time; however, when looking at pure processing time, the Thrust implementation remains steady while our CUDA implementation grows at an exponential rate. These results indicate that the time it takes to copy the data from a CPU device to a GPU device is the limiting factor in determining which system will perform better. This means that the input size has to be large enough for a GPU implementation to outperform a CPU implementation. 
+
+% \section{Array Reduce}
+% Array reduce (or sum) is a common primitive operation that is trivial to implement in a serial manner: loop over all elements in an array, sum into an accumulator.  Array reduce also lends itself well to a simple divide \& conquer algorithm. Independent slices of an array may be summed independently and the intermediate results may then be combined together. Although the algorithm is straightforward, optimal parallel implementation is non-trivial, particularly in the CUDA programming environment.
+
+% \subsection{Design}
+% Based on previous work presented in  \cite{OptimizingParallelReductionInCUDA}, we implemented array reduce using the CUDA library. Based on NVIDIA guides, we tuned our implementation for the GPU's capabilities, performing several trials to determine optimum workload division and methods that make efficient use of the GPU memory characteristics: ensuring coalesced memory reads and shared memory use for intermediate results, rather than over-reliance on slower global memory. In our final implementation the main loop is unrolled perform multiple sum operations within a single thread.
+
+% Separately, we implemented a version of array reduce based on the Thrust library.  The library defines a number of abstractions (specifically, \texttt{device\_vector}) to significantly simplify the code. The Thrust library dynamically performs automatic optimizations to balance workload across available threads and to efficiently handle memory transfers, based on the specific capabilities of the targeted GPU or CPU.  We then proceeded to perform experiments to compare performance of the CPU-only implementation, CUDA/GPU implementation, and Thrust-based parallel implementation, compiling and running two different versions of the Thrust implementation: CPU and GPU.
+
+% \subsection{Experimental Results}
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=3.5in]{reduce_runtime.png}
+%   \caption{Array Reduce, Runtime, Thrust implementation (Log-Log Scale)}
+% \end{figure}
+
+% Figure 3 shows overall runtime (y-axis) for increasing array input sizes (x-axis.)  For small arrays (less than 10,000 elements) the chart highlights the high initialization costs that must be considered when performing computations on a GPU. These include: transfer from the computer's main memory (host) to the GPU (device) global memory, initializing threads and thread blocks on the GPU, and executing many independent GPU computing kernels.  Interestingly, this experimental data indicates that startup costs are greater for more advanced GPU architectures. The lighter orange line in the chart, labeled "GPU2", represents an extremely high-end configuration running 4 GPUs, each a Tesla V100-SXM2-16GB.
+
+% As the input size grows, however, the GPU's unique parallel computing capabilities quickly begin to outweigh initialization costs.  Furthermore, as shown in Figure 4, the benefits of a multi-GPU architecture begin to appear when input sizes grow still further. However, it should be noted that we performed much of our evaluation using computationally simple tasks with linear arrays of data. It is likely that a more compute-intensive workload and more complex data structures would yield vastly different results.
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=3.5in]{reduce_gpu_comparison.png}
+%   \caption{Array Reduce, GPU comparison, Thrust implementation}
+% \end{figure}
+
+
+% \iffalse  % comment entire algo for now
+
+
+% \section{Skyline Problem}
+
+% \begin{algorithm}
+% \caption{Skyline Problem \cite{SkylineAlgorithm}}\label{skyline}
+% \begin{algorithmic}[1]
+% \textbf{Input:} A list of skylines
+% \textbf{Input:} A combined skyline
+% \Procedure{MakeSkyline}{S_{1},S_{2},S_{3},...,S_{k}}
+
+
+% \If {$k = 1$ \textit{(just one skyline)}} 
+% \Return S_{1}
+% \Else
+% \Return Combine(MakeSkyline(), MakeSkyline())
+% \EndIf
+% \State $j \gets \textit{patlen}$
+% \BState \emph{loop}:
+% \If {$\textit{string}(i) = \textit{path}(j)$}
+% \State $j \gets j-1$.
+% \State $i \gets i-1$.
+% \State \textbf{goto} \emph{loop}.
+% \State \textbf{close};
+% \EndIf
+% \State $i \gets i+\max(\textit{delta}_1(\textit{string}(i)),\textit{delta}_2(j))$.
+% \State \textbf{goto} \emph{top}.
+% \EndProcedure
+% \end{algorithmic}
+% \end{algorithm}
+
+
+
+% \subsection{Design}
+
+% The skyline problem involves input that consists of points that are assumed to be rectangular buildings in a skyline. Each building consists of three values: a left edge, a height and a right edge. The goal of the algorithm is to compute a single outline of all buildings, taking into account buildings that overlap.
+
+% The skyline problem has been well-studied optimal divide and conquer algorithm has been described \cite{SkylineAlgorithm}.  To summarize the algorithm the input skyline is successively divided into halves, the solution is found for each slice, then the solutions to the sub problems are combined into the final result. This algorithm clearly benefits from parallelism and is a good candidate for implementation on the GPU.
+
+% \subsection{Experimental Results}
+
+% Based on a simple non-parallel CPU implementation, we set out to develop CUDA and Thrust implementations of the skyline algorithm for evaluation on GPUs. With the exception of a Thrust implementation, these implementations are currently incomplete and do not yet yield valuable performance comparisons.
+
+% \fi
+
+% % needed in second column of first page if using \IEEEpubid
+% %\IEEEpubidadjcol
+
+% % An example of a floating figure using the graphicx package.
+% % Note that \label must occur AFTER (or within) \caption.
+% % For figures, \caption should occur after the \includegraphics.
+% % Note that IEEEtran v1.7 and later has special internal code that
+% % is designed to preserve the operation of \label within \caption
+% % even when the captionsoff option is in effect. However, because
+% % of issues like this, it may be the safest practice to put all your
+% % \label just after \caption rather than within \caption{}.
+% %
+% % Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% % option should be used if it is desired that the figures are to be
+% % displayed while in draft mode.
+% %
+% %\begin{figure}[!t]
+% %\centering
+% %\includegraphics[width=2.5in]{myfigure}
+% % where an .eps filename suffix will be assumed under latex, 
+% % and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% % via \DeclareGraphicsExtensions.
+% %\caption{Simulation Results}
+% %\label{fig_sim}
+% %\end{figure}
+
+% % Note that IEEE typically puts floats only at the top, even when this
+% % results in a large percentage of a column being occupied by floats.
+
+
+% % An example of a double column floating figure using two subfigures.
+% % (The subfig.sty package must be loaded for this to work.)
+% % The subfigure \label commands are set within each subfloat command, the
+% % \label for the overall figure must come after \caption.
+% % \hfil must be used as a separator to get equal spacing.
+% % The subfigure.sty package works much the same way, except \subfigure is
+% % used instead of \subfloat.
+% %
+% %\begin{figure*}[!t]
+% %\centerline{\subfloat[Case I]\includegraphics[width=2.5in]{subfigcase1}%
+% %\label{fig_first_case}}
+% %\hfil
+% %\subfloat[Case II]{\includegraphics[width=2.5in]{subfigcase2}%
+% %\label{fig_second_case}}}
+% %\caption{Simulation results}
+% %\label{fig_sim}
+% %\end{figure*}
+% %
+% % Note that often IEEE papers with subfigures do not employ subfigure
+% % captions (using the optional argument to \subfloat), but instead will
+% % reference/describe all of them (a), (b), etc., within the main caption.
+
+
+% % An example of a floating table. Note that, for IEEE style tables, the 
+% % \caption command should come BEFORE the table. Table text will default to
+% % \footnotesize as IEEE normally uses this smaller font for tables.
+% % The \label must come after \caption as always.
+% %
+% %\begin{table}[!t]
+% %% increase table row spacing, adjust to taste
+% %\renewcommand{\arraystretch}{1.3}
+% % if using array.sty, it might be a good idea to tweak the value of
+% % \extrarowheight as needed to properly center the text within the cells
+% %\caption{An Example of a Table}
+% %\label{table_example}
+% %\centering
+% %% Some packages, such as MDW tools, offer better commands for making tables
+% %% than the plain LaTeX2e tabular which is used here.
+% %\begin{tabular}{|c||c|}
+% %\hline
+% %One & Two\\
+% %\hline
+% %Three & Four\\
+% %\hline
+% %\end{tabular}
+% %\end{table}
+
+
+% % Note that IEEE does not put floats in the very first column - or typically
+% % anywhere on the first page for that matter. Also, in-text middle ("here")
+% % positioning is not used. Most IEEE journals use top floats exclusively.
+% % Note that, LaTeX2e, unlike IEEE journals, places footnotes above bottom
+% % floats. This can be corrected via the \fnbelowfloat command of the
+% % stfloats package.
+
+
+% \section{Future Work}
+% We started an implementation for the Skyline Problem and Closest Pair of Points algorithm but were unable to finish due to their complexity and the deadline of this paper. The added complexity of these algorithms introduces some interesting problems and techniques to solve these problems, which could be implemented and compared to further explore the techniques used to make a GPU implementation of a CPU algorithm and then how to further optimize those implementations.
+
+% It would also be interesting to extend our experiments to include a "hybrid" approach, as proposed in \cite{GenericHybrid}. Our experimental results explored the relative effect of input size and memory transfer cost on overall performance of CPU and GPU algorithm implementations. We did not, however, tailor our implementations to balance tasks across the CPU and GPU. Current-generation physical and cloud based servers combine high performance GPUs with modern multi-core CPUs. If an implementation were to carefully coordinate CPU and GPU activities, exploiting the power of both, it seems likely that additional performance gains could be achieved.
+
+% Another interesting avenue for exploration could be to further analyze the capabilities and performance characteristics of "cloud" GPU instances.  We confined our experimentation to just two instance types offered by a single cloud provider. Broadening to other providers and instance types could allow valuable conclusions to be drawn about the numerous trade-offs inherent in a shared, cloud computing environment as they pertain specifically to GPU-enabled computing instances.
+
+% \section{Conclusion}
+% We presented GPU-tailored parallel implementation of several simple divide \& conquer algorithms and compared performance with traditional CPU-oriented serial implementations on both physical hardware and cloud-based, virtualized servers.  We experimented with parameters exposed by the CUDA library, including block size and thread count. We extended our experiments to include GPU implementations based on the Thrust parallel algorithms library. For large input sizes, parallel GPU implementations significantly outperformed CPU-only implementations, as expected based on the naturally parallel nature of the divide and conquer algorithms we studied.  Notably, our Thrust-based implementations offered the greatest performance gains.  This highlights the value of higher-level abstractions for parallel programming. The CUDA library exposes many powerful capabilities and parameters, many of which are difficult to use in an effective and optimal manner, particularly for programmers without significant previous exposure to GPU programming.  The Thrust library, as a wrapper around CUDA, offers an attractive entry point to parallel programming on GPUs.
+
+
+% if have a single appendix:
+%\appendix[Proof of the Zonklar Equations]
+% or
+%\appendix  % for no appendix heading
+% do not use \section anymore after \appendix, only \section*
+% is possibly needed
+
+% use appendices with more than one appendix
+% then use \section to start each appendix
+% you must declare a \section before using any
+% \subsection or using \label (\appendices by itself
+% starts a section numbered zero.)
+%
+
+
+%\appendices
+%\section{Proof of the First Zonklar Equation}
+%Some text for the appendix.
+
+% use section* for acknowledgement
+%\section*{Acknowledgment}
+%The authors would like to thank...
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+%\begin{thebibliography}{2}
+%\bibitem{IEEEhowto:kopka} H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%\end{thebibliography}
+
+
+% Note from Andrew: To add a new reference, copy the BibTex snippet from ACM/IEEE/etc. web page into refs.bib, then make sure to \cite{} by the exact id
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+
+
+% biography section
+% 
+% If you have an EPS/PDF photo (graphicx package needed) extra braces are
+% needed around the contents of the optional argument to biography to prevent
+% the LaTeX parser from getting confused when it sees the complicated
+% \includegraphics command within an optional argument. (You could create
+% your own custom macro containing the \includegraphics command to make things
+% simpler here.)
+%\begin{biography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+% or if you just want to reserve a space for a photo:
+
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture}}]{John Doe}
+%\blindtext
+%\end{IEEEbiography}
+
+% You can push biographies down or up by placing
+% a \vfill before or after them. The appropriate
+% use of \vfill depends on what kind of text is
+% on the last page and whether or not the columns
+% are being equalized.
+
+%\vfill
+
+% Can be used to pull up biographies so that the bottom of the last one
+% is flush with the other column.
+%\enlargethispage{-5in}
+
+
+
+% that's all folks
+\end{document}
+
+
+
