@@ -1,5 +1,10 @@
 #!/bin/bash
+# relies on following environment variables:
+# $ES - absolute path to directory containing elasticsearch-6.2.1 folder
 
+[ -z "$ES" ] && echo "Need to set ES" && exit 1;
+
+cd $ES
 if [ $1 != "clean" ]; then
 rm -rf machines
 mkdir machines
@@ -9,13 +14,13 @@ do
         mkdir $i
         printf "$i\n" >> machine_list.txt
         cd $i
-        cp -r ~/569/elasticsearch-6.2.1 .
+        cp -r $ES/elasticsearch-6.2.1 .
         echo "node.name: 127x$i" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        echo "path.logs: //home/nsfard/569/machines/$i/logs" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        echo "path.data: //home/nsfard/569/machines/$i/data" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        echo "path.logs: $ES/machines/$i/logs" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        echo "path.data: $ES/machines/$i/data" >> elasticsearch-6.2.1/config/elasticsearch.yml
         let "ip=i+10"
         echo "network.host: 129.65.221.$ip" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        nohup ssh 127x${i}.csc.calpoly.edu "569/machines/$i/elasticsearch-6.2.1/bin/elasticsearch" &> out.txt < /dev/null &
+        nohup ssh 127x${i}.csc.calpoly.edu "$ES/machines/$i/elasticsearch-6.2.1/bin/elasticsearch" &> out.txt < /dev/null &
         cd ..
 done
 cd ..
@@ -24,7 +29,7 @@ cat machines/machine_list.txt | while read line
 do
         echo $line
         echo 
-        pid=`nohup ssh 127x${line}.csc.calpoly.edu "ps -ef | grep /bin/java | grep nsfard | grep elasticsearch" &> /dev/null < /dev/null &`
+        pid=`nohup ssh 127x${line}.csc.calpoly.edu "ps -ef | grep /bin/java | grep $USER | grep elasticsearch" &> /dev/null < /dev/null &`
         pid=`echo $pid | awk -F'[: ]+' '{ print $2 }'`
 
         for i in $pid;
