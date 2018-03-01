@@ -1,11 +1,23 @@
 #!/bin/bash
 # relies on following environment variables:
 # $ES - absolute path to directory containing elasticsearch-6.2.1 folder
+# input: start machine, end machine, python script
+# only use machines 11-35 inclusive
+# output for python program will be written to ./tester.out
+# clean option tears down the cluster
+#
+# Example: ./tester.sh 14 16 prog.py
+# Above will start an elasticsearch cluster on machines 14, 15, and 16 and then run "prog.py" on machine 14
+#
+# Example: ./tester.sh clean 
+# Above will tear down the cluster
 
 [ -z "$ES" ] && echo "Need to set ES" && exit 1;
+d=$PWD
 
 cd $ES
 if [ $1 != "clean" ]; then
+[ -z "$3" ] && echo "no python program supplied" && exit 1;
 rm -rf machines
 mkdir machines
 cd machines
@@ -24,6 +36,7 @@ do
         cd ..
 done
 cd ..
+nohup ssh 127x${1}.csc.calpoly.edu "cd $d && python $3" &> tester.out < /dev/null &
 else
 cat machines/machine_list.txt | while read line
 do
