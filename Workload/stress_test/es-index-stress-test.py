@@ -95,12 +95,13 @@ AUTH_USERNAME = args.auth_username
 AUTH_PASSWORD = args.auth_password
 CONFIG_FILE = args.config_file
 
-Test_Params = collections.namedtuple("Test_Params", "indices shards replicas docs")
+Test_Params = collections.namedtuple("Test_Params", "indices shards replicas docs clients")
 
 params = Test_Params(indices=NUMBER_OF_INDICES,
                     shards=NUMBER_OF_SHARDS,
                     replicas=NUMBER_OF_REPLICAS,
-                    docs=NUMBER_OF_DOCUMENTS)
+                    docs=NUMBER_OF_DOCUMENTS,
+                    clients=NUMBER_OF_CLIENTS)
 
 # timestamp placeholder
 STARTED_TIMESTAMP = 0
@@ -290,8 +291,8 @@ def generate_indices(es):
         try:
             # And create it in ES with the shard count and replicas
             es.indices.create(index=temp_index, body={"settings": {"number_of_shards": NUMBER_OF_SHARDS,
-                                                                   "number_of_replicas": NUMBER_OF_REPLICAS}})
-
+                                                                   "number_of_replicas": NUMBER_OF_REPLICAS,
+                                                                   "index.mapping.total_fields.limit" : 1000000}})
         except Exception as e:
             print("Could not create index. Is your cluster ok?")
             print(e)
@@ -302,15 +303,21 @@ def generate_indices(es):
 
 
 def cleanup_indices(es, indices):
+    try:
+        es.indices.delete(index="_all", ignore=[400, 404])
+    except:
+        print("Could not delete index: {0}. Continue anyway..".format(curr_index))
+
     # Iterate over all indices and delete those
-    for curr_index in indices:
+    """ for curr_index in indices:
         try:
             # Delete the index
+            # es.indices.delete(index=curr_index, ignore=[400, 404])
             es.indices.delete(index=curr_index, ignore=[400, 404])
 
         except:
             print("Could not delete index: {0}. Continue anyway..".format(curr_index))
-
+    """
 
 def print_stats(STARTED_TIMESTAMP):
     # Calculate elpased time
@@ -326,11 +333,13 @@ def print_stats(STARTED_TIMESTAMP):
         mbs = size_mb / float(elapsed_time)
 
     # Print stats to the user
-    print("Elapsed time: {0} seconds".format(elapsed_time))
-    print("Successful bulks: {0} ({1} documents)".format(success_bulks, (success_bulks * BULK_SIZE)))
-    print("Failed bulks: {0} ({1} documents)".format(failed_bulks, (failed_bulks * BULK_SIZE)))
-    print("Indexed approximately {0} MB which is {1:.2f} MB/s".format(size_mb, mbs))
-    print("")
+    # print("Elapsed time: {0} seconds".format(elapsed_time))
+    # print("Successful bulks: {0} ({1} documents)".format(success_bulks, (success_bulks * BULK_SIZE)))
+    # print("Failed bulks: {0} ({1} documents)".format(failed_bulks, (failed_bulks * BULK_SIZE)))
+    # print("Indexed approximately {0} MB which is {1:.2f} MB/s".format(size_mb, mbs))
+    print("{0:.2f}".format(mbs), end=" ")
+    sys.stdout.flush()
+    # print("")
 
 
 def print_stats_worker(STARTED_TIMESTAMP):
@@ -351,18 +360,19 @@ def print_stats_worker(STARTED_TIMESTAMP):
             # Print stats
             print_stats(STARTED_TIMESTAMP)
 
+MISSING = object()
 
-def runTest(params):
+def runTest(params=MISSING):
     clients = []
     all_indices = []
     auth = None
     context = None
 
-    global NUMBER_OF_INDICES, NUMBER_OF_SHARDS, NUMBER_OF_REPLICAS
-    NUMBER_OF_INDICES = params.indices
-    NUMBER_OF_SHARDS = params.shards
-    NUMBER_OF_REPLICAS = params.replicas
-
+    if params is not MISSING:
+        global NUMBER_OF_INDICES, NUMBER_OF_SHARDS, NUMBER_OF_REPLICAS
+        NUMBER_OF_INDICES = params.indices
+        NUMBER_OF_SHARDS = params.shards
+        NUMBER_OF_REPLICAS = params.replicas
 
     # Set the timestamp
     STARTED_TIMESTAMP = int(time.time())
@@ -462,6 +472,7 @@ def runTest(params):
 
     print("\nTest is done! Final results:")
     print_stats(STARTED_TIMESTAMP)
+    print("")
 
     # Cleanup, unless we are told not to
     if not NO_CLEANUP:
@@ -473,25 +484,31 @@ def runTest(params):
 
 def main():
 
-    try:
-        with open(CONFIG_FILE) as config_file:
-            for num, line in enumerate(config_file):
-                tokens = line.split(" ")
-                params = Test_Params(   indices=int(tokens[0].strip()),
-                                        shards=int(tokens[1].strip()),
-                                        replicas=int(tokens[2].strip()),
-                                        docs=int(tokens[3].strip()))
+    if CONFIG_FILE == "":
+        print("\nTest: indices = {}, shards = {}, replicas = {}, docs = {}".format(
+            NUMBER_OF_INDICES, NUMBER_OF_SHARDS, NUMBER_OF_REPLICAS, NUMBER_OF_DOCUMENTS))
+        runTest()
+    else:
+        try:
+            with open(CONFIG_FILE) as config_file:
+                for num, line in enumerate(config_file):
+                    tokens = line.split(" ")
+                    params = Test_Params(   indices=int(tokens[0].strip()),
+                                            shards=int(tokens[1].strip()),
+                                            replicas=int(tokens[2].strip()),
+                                            docs=int(tokens[3].strip()),
+                                            clients=int(tokens[4].strip()))
 
-                print("\nTest {}: indices = {}, shards = {}, replicas = {}, docs = {}".format(
-                    num, params.indices, params.shards, params.replicas, params.docs))
+                    print("\nTest {}: indices = {}, shards = {}, replicas = {}, docs = {}".format(
+                        num, params.indices, params.shards, params.replicas, params.docs))
 
-                runTest(params)
+                    runTest(params)
 
-    except FileNotFoundError:
-        print("Config file not found: {}".format(
-            CONFIG_FILE if (CONFIG_FILE != "") else "No file specified"))
-        print("")
-        sys.exit(1)
+        except FileNotFoundError:
+            print("Config file not found: {}".format(
+                CONFIG_FILE if (CONFIG_FILE != "") else "No file specified"))
+            print("")
+            sys.exit(1)
 
 try:
     main()

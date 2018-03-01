@@ -1,0 +1,16 @@
+
+Starting initialization of localhost
+Done!
+Creating indices.. 
+Generating documents and workers.. 
+Done!
+Starting the test. Will print stats every 5 seconds.
+The test would run for 200 seconds, but it might take a bit more because we are waiting for current bulk operation to complete. 
+
+13.93 27.85 27.84 31.43 30.81 29.54 27.85 25.93 26.71 24.73 24.52 23.46 23.80 24.08 23.60 23.85 23.78 23.69 23.05 22.47 22.45 21.95 21.50 21.75 21.55 21.16 21.00 20.65 20.71 20.76 21.33 21.19 20.89 20.78 20.66 20.40 20.15 20.06 19.97 
+Test is done! Final results:
+20.03 
+Cleaning up created indices.. 
+Done!
+Config file not found: No file specified
+
