@@ -19,7 +19,8 @@ do
         echo "path.logs: $ES/machines/$i/logs" >> elasticsearch-6.2.1/config/elasticsearch.yml
         echo "path.data: $ES/machines/$i/data" >> elasticsearch-6.2.1/config/elasticsearch.yml
         let "ip=i+10"
-        echo "network.host: 129.65.221.$ip" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        echo "http.host: 129.65.221.$ip" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        echo "http.port: 9200" >> elasticsearch-6.2.1/config/elasticsearch.yml
         nohup ssh 127x${i}.csc.calpoly.edu "$ES/machines/$i/elasticsearch-6.2.1/bin/elasticsearch" &> out.txt < /dev/null &
         cd ..
 done
@@ -27,9 +28,7 @@ cd ..
 else
 cat machines/machine_list.txt | while read line
 do
-        echo $line
-        echo 
-        pid=`nohup ssh 127x${line}.csc.calpoly.edu "ps -ef | grep /bin/java | grep $USER | grep elasticsearch" &> /dev/null < /dev/null &`
+        pid=`nohup ssh 127x${line}.csc.calpoly.edu "ps -ef | grep /bin/java | grep $USER | grep elasticsearch"  < /dev/null &`
         pid=`echo $pid | awk -F'[: ]+' '{ print $2 }'`
 
         for i in $pid;
