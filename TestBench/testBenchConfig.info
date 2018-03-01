@@ -1,0 +1,109 @@
+
+There are two parts to configuration of Elasticsearch.
+
+
+Configuration in these files:
+   - elasticsearch.yml  - for Elasticsearch
+   - jvm.options        - for configuring Elasticsearch JVM settings
+   - log4j2.properties  - for configuring elastic logging
+Must be set prior to the start up of Elasticsearch.
+The configurations in the above file are persistent cluster settings.
+
+There are also 'Cluster update settings' that can be change after start up via REST API.
+These settings are transient settings and therefore they will take precedence over persistent settings.
+
+Because of this it is suggested that the config files should contain node-specific settings 
+such as node.name and path or settings required to join a cluster; cluster.name, network.host.
+
+
+Persistent Configurations:
+   - We are not concerned with the configurations of log4j2.properties at this time.
+   - Configurations for jvm.options
+      1) set heap size
+         - set min (Xms) and max heap size (Xmx) to be equal and less than 50% of physical RAM
+         In jvm.options via script
+            "-Xms10g" 
+            "-Xmx10g"
+
+   - Configurations for elasticsearch.yml:
+         1) path.data
+            - The location of the data files of each index/ shard allocated on the node
+            - "path.data: //home/dmaulick/569/machines/16/data"
+
+         2) path.logs
+            - log file location
+            - "path.logs: //home/dmaulick/569/machines/16/logs"
+         3) cluster.name
+            - A node can only join a cluster when it shares cluster.name with all other cluster nodes
+            - default is elasticsearch
+            - should set to: "cluster.name: 569-StressTest"
+         4) node.name
+            - by default will use first seven characters of the randomly generated UUID
+            - but should set default to: "node.name: ${HOSTNAME}"
+         5) network.host
+            - by default Elasticsearch will bind to loopback address only which is okay for one node
+            - But we need to change this setting
+            - NOTE: once this is set ES upgrades to production mode. 
+               https://www.elastic.co/guide/en/elasticsearch/reference/current/system-config.html#dev-vs-prod
+
+         6) Discovery settings
+            a) discovery.zen.ping.uincast.hosts
+               -When Elasticsearch is in development mode it will bind to available loopback address 
+               and will scan ports 9300 to 9305 to connect to other nodes on same server which 
+               provides autocluster experience without config 
+               - Once we are using multiple servers we must config with a seed list of other 
+               nodes in the cluster that are likely to be live and contactable
+               - "discovery.zen.ping.uincast.hosts: 
+                     - 192.168.1.10:9300
+                     - 192.168.1.11
+                     "
+                     NOTE: second entry will default to transport.profiles.default.port and fallback 
+                     to transport.tcp.port
+            b) discovery.zen.minimum_master_nodes
+               - vital to configure to prevent data loss
+               - this is set so that each master elegble nod knows the min # of master elegible 
+               nodes that must be visible to form a cluster
+               - without this setting the cluster is at risk of split brain after network fail
+               - (master_eligible_nodes / 2) + 1, if (3/2) +1 = 2:
+               - "discovery.zen.minimum_master_nodes: 2"
+
+   - Once Elasticsearch upgrades to production mode ther are a number of settings that 
+   must be considered:
+      1) Disable swapping
+         - Most operating systems try to use as much memory as possible for file system caches and
+         therefore eagerly swap out unused application memory
+         - This can result in parts of JVM heap/ executable pages being swapped to disk which is 
+         awful for performance
+         - to disable swapping permanently, go to /etc/fstab and comment out any line with swap
+         - temporary: "sudo swapoff -a"
+         - put "bootstrap.memory_lock: true" in elasticsearch.yml" to prevent Elasticsearch memory
+         from being swapped out of RAM
+         - check that this setting is set with:
+            curl -XGET 'localhost:9200/_nodes?filter_path=**.mlockall&pretty'
+            if mlock = false the request failed
+         - likely will have issues being allowed to do this
+      2) Increase file descriptors
+         - ES uses a ton of filedescriptors, and it will be disastrous to run out of them
+         - must make sure that user is running 65,536 or higher
+         - temporary: "sudo su \n ulimit -n 65536 \n su elasticsearch"...
+         - permanent: "elasticsearch  -  nofile  65536" in etc/security/limits.conf
+         - check max fd's with:
+         curl -XGET 'localhost:9200/_nodes/stats/process?filter_path=**.max_file_descriptors&pretty'
+      3) Ensure sufficient virtual memory
+         - ES uses a mmapfs directory by default to store its indices and the OS default limit on 
+         mmap count is likely to low
+         - temporary: "sysctl -w vm.max_map_count=262144"
+         - permanent: set vm.max_map_count in /etc/sysctl.conf to 262144
+      4) Ensure sufficient threads
+         - ES uses a number of thread pools for different types of operations.
+         - it is vital that it can create new threads whenever needed.
+         - We must make sure that the number of threads that the ES user can create is atlest 4096
+         - temporary: "ulimit -u 4096
+         - permanent: set nproc to 4096 in /etc/security/limits.conf (need to verify exactly how to do this) "elasticsearch  -  nproc  4096" in etc/security/limits.conf
+      5) JVM DNS cache settings
+         - should'nt need to set
+      
+
+   *should close window before running with new configurations
+
+
