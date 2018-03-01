@@ -40,8 +40,6 @@ nohup ssh 127x${1}.csc.calpoly.edu "cd $d && python $3" &> tester.out < /dev/nul
 else
 cat machines/machine_list.txt | while read line
 do
-        echo $line
-        echo 
         pid=`nohup ssh 127x${line}.csc.calpoly.edu "ps -ef | grep /bin/java | grep $USER | grep elasticsearch" &> /dev/null < /dev/null &`
         pid=`echo $pid | awk -F'[: ]+' '{ print $2 }'`
 
