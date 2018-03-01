@@ -71,6 +71,7 @@ parser.add_argument("--no-verify", default=False, dest="no_verify", action="stor
 
 parser.add_argument("--username", dest="auth_username", default="", help="HTTP authentication Username")
 parser.add_argument("--password", dest="auth_password", default="", help="HTTP authentication Password")
+parser.add_argument("--config", dest="config_file", default="", help="Test configuration file")
 
 # Parse the arguments
 args = parser.parse_args()
@@ -92,12 +93,14 @@ CA_FILE = args.cafile
 VERIFY_CERTS =  not args.no_verify
 AUTH_USERNAME = args.auth_username
 AUTH_PASSWORD = args.auth_password
+CONFIG_FILE = args.config_file
 
-Test_Params = collections.namedtuple("Test_Params", "indices shards replicas")
+Test_Params = collections.namedtuple("Test_Params", "indices shards replicas docs")
 
 params = Test_Params(indices=NUMBER_OF_INDICES,
                     shards=NUMBER_OF_SHARDS,
-                    replicas=NUMBER_OF_REPLICAS)
+                    replicas=NUMBER_OF_REPLICAS,
+                    docs=NUMBER_OF_DOCUMENTS)
 
 # timestamp placeholder
 STARTED_TIMESTAMP = 0
@@ -471,20 +474,22 @@ def runTest(params):
 def main():
 
     try:
-        with open("test.config") as config_file:
+        with open(CONFIG_FILE) as config_file:
             for num, line in enumerate(config_file):
                 tokens = line.split(" ")
                 params = Test_Params(   indices=int(tokens[0].strip()),
                                         shards=int(tokens[1].strip()),
-                                        replicas=int(tokens[2].strip()))
+                                        replicas=int(tokens[2].strip()),
+                                        docs=int(tokens[3].strip()))
 
-                print("\nTest {}: indices = {}, shards = {}, replicas = {}".format(
-                    num, params.indices, params.shards, params.replicas))
+                print("\nTest {}: indices = {}, shards = {}, replicas = {}, docs = {}".format(
+                    num, params.indices, params.shards, params.replicas, params.docs))
 
                 runTest(params)
 
     except FileNotFoundError:
-        print("No test.config file found")
+        print("Config file not found: {}".format(
+            CONFIG_FILE if (CONFIG_FILE != "") else "No file specified"))
         print("")
         sys.exit(1)
 
