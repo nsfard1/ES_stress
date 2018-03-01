@@ -1,0 +1,313 @@
+Basic Format:
+Test #: Test parameters
+
+initialization debug output
+
+Stats printed every 30s
+
+final test stats
+
+cleanup debug output
+
+
+$ python es-index-stress-test.py --es_address localhost --indices 1 --documents 100 --clients 4 --seconds 200 --not-green
+
+Test 0: indices = 1, shards = 3, replicas = 1
+
+Starting initialization of localhost
+Done!
+Creating indices.. 
+Generating documents and workers.. 
+Done!
+Starting the test. Will print stats every 30 seconds.
+The test would run for 200 seconds, but it might take a bit more because we are waiting for current bulk operation to complete. 
+
+Elapsed time: 33 seconds
+Successful bulks: 5 (5000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 181.68324375152588 MB which is 5.51 MB/s
+
+Elapsed time: 63 seconds
+Successful bulks: 10 (10000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 364.0329542160034 MB which is 5.78 MB/s
+
+Elapsed time: 93 seconds
+Successful bulks: 16 (16000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 582.8960561752319 MB which is 6.27 MB/s
+
+Elapsed time: 123 seconds
+Successful bulks: 22 (22000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 802.2403831481934 MB which is 6.52 MB/s
+
+Elapsed time: 153 seconds
+Successful bulks: 29 (29000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 1058.656132698059 MB which is 6.92 MB/s
+
+Elapsed time: 183 seconds
+Successful bulks: 34 (34000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 1241.8779621124268 MB which is 6.79 MB/s
+
+
+Test is done! Final results:
+Elapsed time: 208 seconds
+Successful bulks: 42 (42000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 1533.6562299728394 MB which is 7.37 MB/s
+
+Cleaning up created indices.. 
+Done!
+
+Test 1: indices = 1, shards = 3, replicas = 2
+
+Starting initialization of localhost
+Done!
+Creating indices.. 
+Generating documents and workers.. 
+Done!
+Starting the test. Will print stats every 30 seconds.
+The test would run for 200 seconds, but it might take a bit more because we are waiting for current bulk operation to complete. 
+
+Elapsed time: 33 seconds
+Successful bulks: 47 (47000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 1672.4018850326538 MB which is 50.68 MB/s
+
+Elapsed time: 63 seconds
+Successful bulks: 55 (55000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 1895.63796043396 MB which is 30.09 MB/s
+
+Elapsed time: 93 seconds
+Successful bulks: 63 (63000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 2119.0449028015137 MB which is 22.79 MB/s
+
+Elapsed time: 123 seconds
+Successful bulks: 70 (70000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 2314.774682998657 MB which is 18.82 MB/s
+
+Elapsed time: 153 seconds
+Successful bulks: 77 (77000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 2511.875919342041 MB which is 16.42 MB/s
+
+Elapsed time: 183 seconds
+Successful bulks: 84 (84000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 2706.6800537109375 MB which is 14.79 MB/s
+
+
+Test is done! Final results:
+Elapsed time: 207 seconds
+Successful bulks: 92 (92000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 2930.3783645629883 MB which is 14.16 MB/s
+
+Cleaning up created indices.. 
+Done!
+
+Test 2: indices = 1, shards = 3, replicas = 3
+
+Starting initialization of localhost
+Done!
+Creating indices.. 
+Generating documents and workers.. 
+Done!
+Starting the test. Will print stats every 30 seconds.
+The test would run for 200 seconds, but it might take a bit more because we are waiting for current bulk operation to complete. 
+
+Elapsed time: 33 seconds
+Successful bulks: 97 (97000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 3061.3826122283936 MB which is 92.77 MB/s
+
+ Elapsed time: 63 seconds
+Successful bulks: 104 (104000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 3245.4776363372803 MB which is 51.52 MB/s
+
+Elapsed time: 93 seconds
+Successful bulks: 111 (111000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 3428.824200630188 MB which is 36.87 MB/s
+
+Elapsed time: 123 seconds
+Successful bulks: 116 (116000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 3562.2475385665894 MB which is 28.96 MB/s
+
+Elapsed time: 153 seconds
+Successful bulks: 124 (124000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 3774.636489868164 MB which is 24.67 MB/s
+
+Elapsed time: 183 seconds
+Successful bulks: 129 (129000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 3905.12477684021 MB which is 21.34 MB/s
+
+
+Test is done! Final results:
+Elapsed time: 212 seconds
+Successful bulks: 138 (138000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 4142.914149284363 MB which is 19.54 MB/s
+
+Cleaning up created indices.. 
+Done!
+
+Test 3: indices = 1, shards = 5, replicas = 1
+
+Starting initialization of localhost
+Done!
+Creating indices.. 
+Generating documents and workers.. 
+Done!
+Starting the test. Will print stats every 30 seconds.
+The test would run for 200 seconds, but it might take a bit more because we are waiting for current bulk operation to complete. 
+
+Elapsed time: 33 seconds
+Successful bulks: 142 (142000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 4239.24284362793 MB which is 128.46 MB/s
+
+Elapsed time: 63 seconds
+Successful bulks: 148 (148000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 4387.466310501099 MB which is 69.64 MB/s
+
+Elapsed time: 93 seconds
+Successful bulks: 154 (154000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 4537.069072723389 MB which is 48.79 MB/s
+
+Elapsed time: 123 seconds
+Successful bulks: 160 (160000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 4682.9604959487915 MB which is 38.07 MB/s
+
+Elapsed time: 153 seconds
+Successful bulks: 166 (166000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 4829.822878837585 MB which is 31.57 MB/s
+
+Elapsed time: 183 seconds
+Successful bulks: 171 (171000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 4952.473789215088 MB which is 27.06 MB/s
+
+
+Test is done! Final results:
+Elapsed time: 216 seconds
+Successful bulks: 178 (178000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 5123.180951118469 MB which is 23.72 MB/s
+
+Cleaning up created indices.. 
+Done!
+
+Test 4: indices = 1, shards = 5, replicas = 2
+
+Starting initialization of localhost
+Done!
+Creating indices.. 
+Generating documents and workers.. 
+Done!
+Starting the test. Will print stats every 30 seconds.
+The test would run for 200 seconds, but it might take a bit more because we are waiting for current bulk operation to complete. 
+
+Elapsed time: 33 seconds
+Successful bulks: 182 (182000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 5223.215908050537 MB which is 158.28 MB/s
+
+Elapsed time: 63 seconds
+Successful bulks: 187 (187000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 5349.0305643081665 MB which is 84.91 MB/s
+
+Elapsed time: 93 seconds
+Successful bulks: 193 (193000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 5498.913345336914 MB which is 59.13 MB/s
+
+Elapsed time: 123 seconds
+Successful bulks: 198 (198000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 5626.1921310424805 MB which is 45.74 MB/s
+
+Elapsed time: 153 seconds
+Successful bulks: 204 (204000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 5777.016423225403 MB which is 37.76 MB/s
+
+Elapsed time: 183 seconds
+Successful bulks: 210 (210000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 5928.747068405151 MB which is 32.40 MB/s
+
+
+Test is done! Final results:
+Elapsed time: 218 seconds
+Successful bulks: 217 (217000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 6105.716397285461 MB which is 28.01 MB/s
+
+Cleaning up created indices.. 
+Done!
+
+Test 5: indices = 1, shards = 5, replicas = 3
+
+Starting initialization of localhost
+Done!
+Creating indices.. 
+Generating documents and workers.. 
+Done!
+Starting the test. Will print stats every 30 seconds.
+The test would run for 200 seconds, but it might take a bit more because we are waiting for current bulk operation to complete. 
+
+Elapsed time: 33 seconds
+Successful bulks: 220 (220000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 6183.100877761841 MB which is 187.37 MB/s
+
+Elapsed time: 63 seconds
+Successful bulks: 225 (225000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 6311.528300285339 MB which is 100.18 MB/s
+
+Elapsed time: 93 seconds
+Successful bulks: 230 (230000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 6439.252642631531 MB which is 69.24 MB/s
+
+Elapsed time: 123 seconds
+Successful bulks: 234 (234000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 6541.184946060181 MB which is 53.18 MB/s
+
+Elapsed time: 153 seconds
+Successful bulks: 239 (239000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 6670.541853904724 MB which is 43.60 MB/s
+
+Elapsed time: 183 seconds
+Successful bulks: 244 (244000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 6799.280916213989 MB which is 37.15 MB/s
+
+
+Test is done! Final results:
+Elapsed time: 213 seconds
+Successful bulks: 250 (250000 documents)
+Failed bulks: 0 (0 documents)
+Indexed approximately 6954.531826019287 MB which is 32.65 MB/s
+
+Cleaning up created indices.. 
+Done!
