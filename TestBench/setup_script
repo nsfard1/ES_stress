@@ -19,8 +19,16 @@ do
         echo "path.logs: $ES/machines/$i/logs" >> elasticsearch-6.2.1/config/elasticsearch.yml
         echo "path.data: $ES/machines/$i/data" >> elasticsearch-6.2.1/config/elasticsearch.yml
         let "ip=i+10"
-        echo "http.host: 129.65.221.$ip" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        echo "http.port: 9200" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        echo "network.host: 129.65.221.$ip" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        if [ $i == 26 ]; then
+                echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.37", "129.65.221.38"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
+        elif [ $i == 27 ]; then
+                echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.36", "129.65.221.38"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
+        elif [ $i == 28 ]; then
+                echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.37", "129.65.221.36"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
+        fi
+        echo "discovery.zen.minimum_master_nodes: 2" >> elasticsearch-6.2.1/config/elasticsearch.yml
+        #echo "http.port: 9200" >> elasticsearch-6.2.1/config/elasticsearch.yml
         nohup ssh 127x${i}.csc.calpoly.edu "$ES/machines/$i/elasticsearch-6.2.1/bin/elasticsearch" &> out.txt < /dev/null &
         cd ..
 done
