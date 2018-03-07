@@ -387,7 +387,7 @@
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
-
+%\usepackage[english]{algorithm2e}
 
 \begin{document}
 %
@@ -527,6 +527,12 @@ By learning from each these past tests we hope to identify a new bottleneck in E
 
 \section{Implementation}
 
+\begin{figure}
+  \centering
+  \includegraphics[width=3.5in]{sys_arch.png}
+ \caption{Test Bench Flowchart}
+\end{figure}
+
 There are two components involved in testing the performance of Elasticsearch: a workload and a test bench. The workload consists of one or more test scripts — each representing a single user transaction — whose sole responsibility is to upload documents to an Elasticsearch cluster and query the cluster with search terms. Each test script is just a queue of http requests for our Elasticsearch cluster. The test scripts also have tunable parameters in order to achieve optimal testing conditions. These parameters include:
 \begin{enumerate}
     \item \textbf{Cluster size -} The total number of nodes in the cluster.
@@ -556,13 +562,36 @@ The next step depends on whether the test bench must run sequentially or in para
 Once all the GPU threads or python scripts complete, the coordinator must check to see if there are any more parameter configurations to run (i.e. a new workload and/or cluster configuration to test). If there is another parameter configuration to test, then the coordinator will reconfigure the cluster, if necessary, and restart the process of picking and deploying a workload.
 
 
+\section{Testing}
+
+Our first way of stress testing the cluster was by modifying different components of the cluster and sending a variety of index requests.  Initially, we were able to modify the cluster and manipulate the data sent to the cluster using a python script where we interfaced with the cluster using the ElasticSearch REST API. We were able to create randomly generated document templates by generating random strings and putting them into the proper format. In addition, we were able to mimic multiple clients sending data to the cluster by sending data from multiple threads. Furthermore, we were able to modify different settings of the cluster before testing such as shards and replicas per index, as well as test the effects of multiple clients adding data to the cluster. We were able to compare how increasing the number of shards per index and replicas per index affects the speed of the data inputting as seen Figure 2.
+
 \begin{figure}
   \centering
-  \includegraphics[width=7in]{sys_arch.png}
-  \caption{Test Bench Flowchart}
+  \includegraphics[width=3.5in]{data_rate_by_shard_replica.png}
+ \caption{Comparing Data Rate by Number of Shards and Replicas per Index}
+\end{figure}
+
+As shown in Figure 2, the more shards and replicas per cluster the longer it takes to input data to the cluster. 
+
+We were able to determine how increasing the number of clients for the cluster affected data input speed as seen in Figure 3 and 4.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3.5in]{data_rate_by_client.png}
+    \caption{Comparing Data Rate by Number of Clients in the Cluster}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3.5in]{data_rate_by_client_time.png}
+    \caption{Comparing Data Rate by Number of Clients in the Cluster Over Time}
 \end{figure}
 
 
+As shown in Figure 3 and 4, the number of clients drastically affects the input speed into the cluster. 
+
+Note to Professor Pantoja: We are getting very interesting results for the number of clients writing to the cluster. We would like to further test our set up before we write anything definitive.
 
 
 % Graphical processing units (GPUs) have been around for some time but their application has been limited to just graphics processing until recently. The use of GPUs for general purpose computing is now becoming a hot topic in the computer science industry because of the performance gains that general purpose GPUs (GPGPUs) are capable of accomplishing. The parallel nature of GPUs also allow them to cooperate with a network of GPUs to easily distribute processing needs. Furthermore, considerable work has been done by the NVIDIA corporation to develop the Compute Unified Device Architecture (CUDA) programming model, which allows a developer to program a GPU device without worrying about the device's underlying architecture, similar to how the program 'gcc' enables a developer to program in the universal language C without needing to worry about which underlying assembler architecture is being used. 
@@ -904,6 +933,5 @@ Once all the GPU threads or python scripts complete, the coordinator must check 
 
 % that's all folks
 \end{document}
-
 
 
