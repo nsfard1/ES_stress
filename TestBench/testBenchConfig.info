@@ -67,7 +67,7 @@ Persistent Configurations:
                - (master_eligible_nodes / 2) + 1, if (3/2) +1 = 2:
                - "discovery.zen.minimum_master_nodes: 2"
 
-   - Once Elasticsearch upgrades to production mode ther are a number of settings that 
+   - Once Elasticsearch upgrades to production mode there are a number of settings that 
    must be considered:
       1) Disable swapping
          - Most operating systems try to use as much memory as possible for file system caches and
@@ -101,9 +101,15 @@ Persistent Configurations:
          - temporary: "ulimit -u 4096
          - permanent: set nproc to 4096 in /etc/security/limits.conf (need to verify exactly how to do this) "elasticsearch  -  nproc  4096" in etc/security/limits.conf
       5) JVM DNS cache settings
-         - should'nt need to set
+         - shouldn't need to set
       
 
    *should close window before running with new configurations
+
+
+
+
+Node Configuration:
+   https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#master-node
 
 
