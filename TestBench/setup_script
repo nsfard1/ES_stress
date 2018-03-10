@@ -1,48 +1,73 @@
 #!/bin/bash
 # relies on following environment variables:
 # $ES - absolute path to directory containing elasticsearch-6.2.1 folder
+#
+# input: 
+# $1: clean or first machine number
+# $2: last machine number
+# $3: port number to use
+#
+# examples:
+# ./setup_script clean
+# above will tear down cluster
+#
+# ./setup_script 11 13 1234
+# above will start a cluster on machines 11, 12, and 13 through port 1234
 
 [ -z "$ES" ] && echo "Need to set ES" && exit 1;
 
+let "n_nodes=$2 - $1 + 1"
+#let "n_masters=$n_nodes / 2 + 1"
+let "n_masters=2"
+
 cd $ES
 if [ $1 != "clean" ]; then
-rm -rf machines
-mkdir machines
-cd machines
-for i in `seq $1 $2`;
-do
-        mkdir $i
-        printf "$i\n" >> machine_list.txt
-        cd $i
-        cp -r $ES/elasticsearch-6.2.1 .
-        echo "node.name: 127x$i" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        echo "path.logs: $ES/machines/$i/logs" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        echo "path.data: $ES/machines/$i/data" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        let "ip=i+10"
-        echo "network.host: 129.65.221.$ip" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        if [ $i == 26 ]; then
-                echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.37", "129.65.221.38"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
-        elif [ $i == 27 ]; then
-                echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.36", "129.65.221.38"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
-        elif [ $i == 28 ]; then
-                echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.37", "129.65.221.36"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
-        fi
-        echo "discovery.zen.minimum_master_nodes: 2" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        #echo "http.port: 9200" >> elasticsearch-6.2.1/config/elasticsearch.yml
-        nohup ssh 127x${i}.csc.calpoly.edu "$ES/machines/$i/elasticsearch-6.2.1/bin/elasticsearch" &> out.txt < /dev/null &
-        cd ..
-done
-cd ..
-else
-cat machines/machine_list.txt | while read line
-do
-        pid=`nohup ssh 127x${line}.csc.calpoly.edu "ps -ef | grep /bin/java | grep $USER | grep elasticsearch"  < /dev/null &`
-        pid=`echo $pid | awk -F'[: ]+' '{ print $2 }'`
-
-        for i in $pid;
+        rm -rf machines
+        mkdir machines
+        cd machines
+        for i in `seq $1 $2`;
         do
-                nohup ssh 127x${line}.csc.calpoly.edu "kill -9 $i" &> /dev/null < /dev/null &
+                if [ $i != 11 ] && [ $i != 14 ] && [ $i != 15 ] && [ $i != 17 ] && [ $i != 18 ] && [ $i != 19 ] && [ $i != 21 ] && [ $i != 22 ] && [ $i != 25 ] && [ $i != 28 ] && [ $i != 29 ] && [ $i != 32 ] && [ $i != 34 ] && [ $i != 36 ] && [ $i != 37 ]; then 
+                        mkdir $i
+                        nohup ssh 127x${i}.csc.calpoly.edu "mkdir /vm/elasticsearch/$i" &> /dev/null < /dev/null &
+                        nohup ssh 127x${i}.csc.calpoly.edu "chmod -R 666 /vm/elasticsearch/$i" &> /dev/null < /dev/null &
+                        printf "$i\n" >> machine_list.txt
+                        cd $i
+                        cp -r $ES/elasticsearch-6.2.1 .
+                        echo "node.name: 127x$i" >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        echo "path.logs: /vm/elasticsearch/$i/logs" >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        echo "path.data: /vm/elasticsearch/$i/data" >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        let "ip=i+10"
+                        echo "network.host: 129.65.221.$ip" >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        # if [ $i == 26 ]; then
+                        #         echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.37", "129.65.221.38"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        # elif [ $i == 27 ]; then
+                        #         echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.36", "129.65.221.38"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        # elif [ $i == 28 ]; then
+                        #         echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.37", "129.65.221.36"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        # fi
+                        #echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.40", "129.65.221.41", "129.65.221.42", "129.65.221.43"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        echo 'discovery.zen.ping.unicast.hosts: ["129.65.221.21", "129.65.221.22", "129.65.221.23", "129.65.221.24", "129.65.221.25", "129.65.221.26", "129.65.221.27", "129.65.221.28", "129.65.221.29", "129.65.221.30", "129.65.221.31", "129.65.221.32", "129.65.221.33", "129.65.221.34", "129.65.221.35", "129.65.221.36", "129.65.221.37", "129.65.221.38", "129.65.221.39", "129.65.221.40", "129.65.221.41", "129.65.221.42", "129.65.221.43", "129.65.221.44", "129.65.221.45", "129.65.221.47"]' >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        echo "discovery.zen.minimum_master_nodes: $n_masters" >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        echo "http.port: $3" >> elasticsearch-6.2.1/config/elasticsearch.yml
+                        nohup ssh 127x${i}.csc.calpoly.edu "$ES/machines/$i/elasticsearch-6.2.1/bin/elasticsearch" &> /dev/null < /dev/null &
+                        cd ..
+                fi
         done
-done
-rm -rf machines
+        cd ..
+else
+        cd $ES
+        cat machines/machine_list.txt | while read line
+        do
+                pid=`nohup ssh 127x${line}.csc.calpoly.edu "ps -ef | grep /bin/java | grep $USER | grep elasticsearch"  < /dev/null &`
+                pid=`echo $pid | awk -F'[: ]+' '{ print $2 }'`
+
+                for i in $pid;
+                do
+                        nohup ssh 127x${line}.csc.calpoly.edu "kill -9 $i" &> /dev/null < /dev/null &
+                done
+
+                nohup ssh 127x${line}.csc.calpoly.edu "rm -rf /vm/elasticsearch" &> /dev/null < /dev/null &
+        done
+        rm -rf machines
 fi
